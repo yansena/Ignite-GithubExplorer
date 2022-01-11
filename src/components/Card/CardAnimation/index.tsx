@@ -3,6 +3,8 @@ import React, { useEffect } from 'react';
 import { useWindowDimensions, ViewProps } from 'react-native';
 import {
   Easing,
+  Extrapolate,
+  interpolate,
   useAnimatedStyle,
   useSharedValue,
   withTiming
@@ -22,6 +24,22 @@ export function CardAnimation({ children, ...rest }: CardAnimationProps) {
   const animatedStyle = useAnimatedStyle(() => {
     return {
       // TODO - setup animated style
+      opacity: interpolate(
+        cardOpacity.value,
+        [0,1],
+        [0,1],
+        Extrapolate.CLAMP 
+      ),
+      transform: [
+        {
+          translateX:interpolate(
+            cardOffset.value,
+            [0.25 * displayWidth, 0],
+            [0.25 * displayWidth, 0],
+            Extrapolate.CLAMP 
+          )
+        }
+      ]
     }
   })
 
